@@ -238,12 +238,24 @@
 }
 
 /* ── 2. Login Page ── */
-/* Body-level scroll lock when login is active */
+/* Body-level scroll lock + layout reset when login is active */
 body.login-active,
 body.login-active html {
   overflow: hidden !important;
   height: 100dvh !important;
 }
+/* Remove the topbar-height padding that .layout normally adds */
+body.login-active #layout,
+body.login-active .layout {
+  padding-top: 0 !important;
+  min-height: unset;
+}
+/* Hide the page-root wrapper's own margin/padding */
+body.login-active #main-content {
+  margin-left: 0 !important;
+  padding: 0 !important;
+}
+
 
 .login-page {
   height: 100dvh;

@@ -112,6 +112,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
+/* Scroll-lock for login page — no scrollbar, exact viewport */
+html:has(body.login-active),
+body.login-active {
+  overflow: hidden !important;
+  height: 100dvh !important;
+}
 img { max-width: 100%; display: block; }
 a { color: var(--c-primary); text-decoration: none; transition: color var(--t-fast); }
 a:hover { color: var(--c-primary-dark); }

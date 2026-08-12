@@ -299,7 +299,7 @@ const App = (() => {
         <div class="empty-state-icon" style="font-size:3rem;">🗺️</div>
         <div class="empty-state-title">Page Not Found</div>
         <div class="empty-state-desc">The page you're looking for doesn't exist.</div>
-        <button onclick="App.navigate(_user?.role === 'resident' ? '/dashboard' : _user ? '/staff/queue' : '/login')" class="btn btn-primary" style="margin-top:var(--s-4);">Go Home</button>
+        <button onclick="App.navigate(App.user?.role === 'resident' ? '/dashboard' : App.user ? '/staff/queue' : '/login')" class="btn btn-primary" style="margin-top:var(--s-4);">Go Home</button>
       </div>`;
   }
 

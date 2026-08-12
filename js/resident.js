@@ -103,8 +103,8 @@ const ResidentPages = (() => {
     init() {
       let _phone = '';
       const phoneInput = document.getElementById('login-phone');
-      const stepPhone  = document.getElementById('login-step-phone');
-      const stepOtp    = document.getElementById('login-step-otp');
+      const stepPhone = document.getElementById('login-step-phone');
+      const stepOtp = document.getElementById('login-step-otp');
 
       document.getElementById('btn-send-otp').addEventListener('click', () => {
         const raw = phoneInput.value.replace(/\D/g, '');
@@ -151,7 +151,7 @@ const ResidentPages = (() => {
           }
         });
         inp.addEventListener('paste', (e) => {
-          const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);
+          const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, 6);
           otpInputs.forEach((inp2, j) => { inp2.value = pasted[j] || ''; inp2.classList.toggle('filled', !!pasted[j]); });
           e.preventDefault();
         });
@@ -193,10 +193,10 @@ const ResidentPages = (() => {
   const dashboard = {
     render() {
       const user = App.user;
-      const allReqs    = DB.getRequests({ resident_id: user.id });
-      const activeReqs = allReqs.filter(r => !['released','rejected'].includes(r.status));
-      const anns       = DB.getAnnouncements().slice(0, 3);
-      const greeting   = Utils.getDayGreeting();
+      const allReqs = DB.getRequests({ resident_id: user.id });
+      const activeReqs = allReqs.filter(r => !['released', 'rejected'].includes(r.status));
+      const anns = DB.getAnnouncements().slice(0, 3);
+      const greeting = Utils.getDayGreeting();
       return `
       <div class="dashboard-hero page-enter">
         <div class="hero-greeting">${greeting} 👋</div>
@@ -255,7 +255,7 @@ const ResidentPages = (() => {
             <div><div class="ann-card-title">${Utils.escapeHtml(a.title)}</div><div class="ann-card-meta"><span>${Utils.formatDateShort(a.published_at)}</span><span>${Utils.escapeHtml(a.author)}</span></div></div>
             <span class="badge badge-${a.category.toLowerCase()}">${a.category}</span>
           </div>
-          <div class="ann-card-body" style="padding-top:0;">${Utils.escapeHtml(a.content.substring(0,160))}${a.content.length > 160 ? '&hellip;' : ''}</div>
+          <div class="ann-card-body" style="padding-top:0;">${Utils.escapeHtml(a.content.substring(0, 160))}${a.content.length > 160 ? '&hellip;' : ''}</div>
         </div>`).join('')}
         <div style="text-align:center;padding:var(--s-8) var(--s-4) var(--s-4);border-top:1px solid var(--c-border);margin-top:var(--s-8);">
           <div style="font-size:.78rem;color:var(--c-text-light);">Need help? Visit us in person.</div>
@@ -263,7 +263,7 @@ const ResidentPages = (() => {
         </div>
       </div>`;
     },
-    init() {}
+    init() { }
   };
 
   /* ══════════════════════════════════════════════════════════
@@ -273,12 +273,12 @@ const ResidentPages = (() => {
     _step: 1,
     _data: {},
     _docTypes: [
-      { id: 'clearance', name: 'Barangay Clearance',          fee: 75,  icon: '📄', ids: ['Government ID','Proof of Residence'] },
-      { id: 'residency', name: 'Certificate of Residency',    fee: 50,  icon: '🏠', ids: ['Government ID','Proof of Residence'] },
-      { id: 'indigency', name: 'Certificate of Indigency',    fee: 0,   icon: '🤝', ids: ['Government ID','Proof of Residence','Proof of Income / no-income certification'] },
-      { id: 'business',  name: 'Business Permit Endorsement', fee: 200, icon: '🏪', ids: ['Government ID','DTI/SEC/CDA Registration','Proof of Business Location'] },
+      { id: 'clearance', name: 'Barangay Clearance', fee: 75, icon: '📄', ids: ['Government ID', 'Proof of Residence'] },
+      { id: 'residency', name: 'Certificate of Residency', fee: 50, icon: '🏠', ids: ['Government ID', 'Proof of Residence'] },
+      { id: 'indigency', name: 'Certificate of Indigency', fee: 0, icon: '🤝', ids: ['Government ID', 'Proof of Residence', 'Proof of Income / no-income certification'] },
+      { id: 'business', name: 'Business Permit Endorsement', fee: 200, icon: '🏪', ids: ['Government ID', 'DTI/SEC/CDA Registration', 'Proof of Business Location'] },
     ],
-    _purposes: ['Employment','Travel','School enrollment','Government assistance','Hospital/Medical','Business permit','Bank requirements','Other'],
+    _purposes: ['Employment', 'Travel', 'School enrollment', 'Government assistance', 'Hospital/Medical', 'Business permit', 'Bank requirements', 'Other'],
 
     render() {
       this._step = 1;
@@ -300,10 +300,10 @@ const ResidentPages = (() => {
     },
 
     _renderStepper() {
-      const steps = ['Choose Type','Fill Details','Upload & Pay','Review'];
+      const steps = ['Choose Type', 'Fill Details', 'Upload & Pay', 'Review'];
       return `<div class="stepper">${steps.map((s, i) => `
-        <div class="stepper-item ${i+1 < this._step ? 'completed' : i+1 === this._step ? 'active' : ''}">
-          <div class="stepper-dot">${i+1 < this._step ? '&#10003;' : i+1}</div>
+        <div class="stepper-item ${i + 1 < this._step ? 'completed' : i + 1 === this._step ? 'active' : ''}">
+          <div class="stepper-dot">${i + 1 < this._step ? '&#10003;' : i + 1}</div>
           <div class="stepper-label">${s}</div>
         </div>`).join('')}</div>`;
     },
@@ -335,12 +335,12 @@ const ResidentPages = (() => {
           <div class="doc-type-card ${this._data.typeId === d.id ? 'selected' : ''}" data-type="${d.id}">
             <div style="font-size:1.75rem;">${d.icon}</div>
             <div class="doc-type-name">${d.name}</div>
-            <div class="doc-type-fee">${d.fee === 0 ? 'Free' : '&#8369;'+d.fee}</div>
+            <div class="doc-type-fee">${d.fee === 0 ? 'Free' : '&#8369;' + d.fee}</div>
           </div>`).join('')}
         </div>
         ${doc ? `<div class="req-id-list" style="margin-top:var(--s-5);">
           <div class="req-id-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Required Documents</div>
-          <ul>${doc.ids.map(id => '<li>'+id+'</li>').join('')}</ul>
+          <ul>${doc.ids.map(id => '<li>' + id + '</li>').join('')}</ul>
         </div>` : ''}
       </div>`;
     },
@@ -364,19 +364,19 @@ const ResidentPages = (() => {
           <div class="form-group">
             <label class="form-label">Civil Status</label>
             <select class="form-select" id="req-civil">
-              ${['Single','Married','Widowed','Separated','Divorced'].map(s => `<option value="${s}" ${(d.civil_status||'Single')===s?'selected':''}>${s}</option>`).join('')}
+              ${['Single', 'Married', 'Widowed', 'Separated', 'Divorced'].map(s => `<option value="${s}" ${(d.civil_status || 'Single') === s ? 'selected' : ''}>${s}</option>`).join('')}
             </select>
           </div>
           <div class="form-group">
             <label class="form-label">Years in Barangay</label>
-            <input type="number" class="form-input" id="req-years" value="${d.years_in_brgy||''}" min="0" max="99" placeholder="5">
+            <input type="number" class="form-input" id="req-years" value="${d.years_in_brgy || ''}" min="0" max="99" placeholder="5">
           </div>
         </div>
         <div class="form-group">
           <label class="form-label">Purpose of Request <span class="required">*</span></label>
           <select class="form-select" id="req-purpose">
             <option value="">&#8212; Select purpose &#8212;</option>
-            ${purposes.map(p => `<option value="${p}" ${d.purpose===p?'selected':''}>${p}</option>`).join('')}
+            ${purposes.map(p => `<option value="${p}" ${d.purpose === p ? 'selected' : ''}>${p}</option>`).join('')}
           </select>
         </div>
         <div class="form-error hidden" id="step2-err"></div>
@@ -410,15 +410,15 @@ const ResidentPages = (() => {
         ${fee > 0 ? `
         <h3 style="font-size:.9rem;font-weight:700;margin-bottom:var(--s-3);">Payment (&#8369;${fee})</h3>
         <div class="payment-options">
-          <label class="payment-option ${this._data.paymentMethod==='online'?'selected':''}" data-pay="online">
+          <label class="payment-option ${this._data.paymentMethod === 'online' ? 'selected' : ''}" data-pay="online">
             <div class="payment-option-icon">💳</div>
             <div class="payment-option-info"><div class="payment-option-name">Pay Online</div><div class="payment-option-desc">GCash, Maya, or bank transfer</div></div>
-            <input type="radio" name="pay" value="online" ${this._data.paymentMethod==='online'?'checked':''} style="accent-color:var(--c-primary);">
+            <input type="radio" name="pay" value="online" ${this._data.paymentMethod === 'online' ? 'checked' : ''} style="accent-color:var(--c-primary);">
           </label>
-          <label class="payment-option ${this._data.paymentMethod==='hall'?'selected':''}" data-pay="hall">
+          <label class="payment-option ${this._data.paymentMethod === 'hall' ? 'selected' : ''}" data-pay="hall">
             <div class="payment-option-icon">🏛️</div>
             <div class="payment-option-info"><div class="payment-option-name">Pay at Barangay Hall</div><div class="payment-option-desc">Upon pickup of your document</div></div>
-            <input type="radio" name="pay" value="hall" ${this._data.paymentMethod==='hall'?'checked':''} style="accent-color:var(--c-primary);">
+            <input type="radio" name="pay" value="hall" ${this._data.paymentMethod === 'hall' ? 'checked' : ''} style="accent-color:var(--c-primary);">
           </label>
         </div>
         <div class="fee-summary">
@@ -441,19 +441,19 @@ const ResidentPages = (() => {
           <div class="review-label">Document</div>
           <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--r-md);padding:var(--s-4) var(--s-5);display:flex;align-items:center;gap:var(--s-3);">
             <span style="font-size:2rem;">${doc ? doc.icon : ''}</span>
-            <div><div style="font-weight:700;">${doc ? doc.name : ''}</div><div style="font-size:.825rem;color:var(--c-text-muted);">Fee: ${doc && doc.fee === 0 ? 'Free' : '&#8369;'+(doc?doc.fee:'')}</div></div>
+            <div><div style="font-weight:700;">${doc ? doc.name : ''}</div><div style="font-size:.825rem;color:var(--c-text-muted);">Fee: ${doc && doc.fee === 0 ? 'Free' : '&#8369;' + (doc ? doc.fee : '')}</div></div>
           </div>
         </div>
         <div class="review-section">
           <div class="review-label">Personal Details</div>
           <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--r-md);padding:var(--s-4) var(--s-5);">
             <div class="review-grid">
-              <div><div class="review-item-label">Full Name</div><div class="review-item-value">${Utils.escapeHtml(d.name||'')}</div></div>
-              <div><div class="review-item-label">Civil Status</div><div class="review-item-value">${d.civil_status||''}</div></div>
-              <div><div class="review-item-label">Address</div><div class="review-item-value">${Utils.escapeHtml(d.address||'')}</div></div>
-              <div><div class="review-item-label">Purpose</div><div class="review-item-value">${d.purpose||''}</div></div>
-              <div><div class="review-item-label">Payment</div><div class="review-item-value">${!doc||doc.fee===0?'Free':d.paymentMethod==='online'?'Online payment':'Pay at hall'}</div></div>
-              <div><div class="review-item-label">ID Uploaded</div><div class="review-item-value">${d.idFile||'Not uploaded'}</div></div>
+              <div><div class="review-item-label">Full Name</div><div class="review-item-value">${Utils.escapeHtml(d.name || '')}</div></div>
+              <div><div class="review-item-label">Civil Status</div><div class="review-item-value">${d.civil_status || ''}</div></div>
+              <div><div class="review-item-label">Address</div><div class="review-item-value">${Utils.escapeHtml(d.address || '')}</div></div>
+              <div><div class="review-item-label">Purpose</div><div class="review-item-value">${d.purpose || ''}</div></div>
+              <div><div class="review-item-label">Payment</div><div class="review-item-value">${!doc || doc.fee === 0 ? 'Free' : d.paymentMethod === 'online' ? 'Online payment' : 'Pay at hall'}</div></div>
+              <div><div class="review-item-label">ID Uploaded</div><div class="review-item-value">${d.idFile || 'Not uploaded'}</div></div>
             </div>
           </div>
         </div>
@@ -486,7 +486,7 @@ const ResidentPages = (() => {
       });
       document.getElementById('req-submit')?.addEventListener('click', () => {
         const user = App.user;
-        const doc  = this._docTypes.find(d => d.id === this._data.typeId);
+        const doc = this._docTypes.find(d => d.id === this._data.typeId);
         const newReq = DB.createRequest({
           resident_id: user.id, resident_name: this._data.name, resident_phone: user.phone,
           type: doc.name, purpose: this._data.purpose, amount: doc.fee,
@@ -504,7 +504,7 @@ const ResidentPages = (() => {
         if (!card) return;
         this._data.typeId = card.dataset.type;
         const doc = this._docTypes.find(d => d.id === this._data.typeId);
-        this._data.fee  = doc ? doc.fee : 0;
+        this._data.fee = doc ? doc.fee : 0;
         this._data.type = doc ? doc.name : '';
         document.querySelectorAll('.doc-type-card').forEach(c => c.classList.remove('selected'));
         card.classList.add('selected');
@@ -515,7 +515,7 @@ const ResidentPages = (() => {
     },
 
     _attachStep3() {
-      const dropZone  = document.getElementById('id-drop-zone');
+      const dropZone = document.getElementById('id-drop-zone');
       const fileInput = document.getElementById('id-file-input');
       if (!dropZone) return;
       dropZone.addEventListener('click', () => fileInput.click());
@@ -540,7 +540,7 @@ const ResidentPages = (() => {
     },
 
     _handleFile(file) {
-      if (file.size > 5*1024*1024) { Utils.showToast('File too large. Max 5MB.', 'error'); return; }
+      if (file.size > 5 * 1024 * 1024) { Utils.showToast('File too large. Max 5MB.', 'error'); return; }
       this._data.idFile = file.name;
       const preview = document.getElementById('id-file-preview');
       if (preview) { preview.classList.remove('hidden'); document.getElementById('file-name-display').textContent = file.name; }
@@ -549,10 +549,10 @@ const ResidentPages = (() => {
     _validate() {
       if (this._step === 1 && !this._data.typeId) { Utils.showToast('Please select a document type.', 'warning'); return false; }
       if (this._step === 2) {
-        const name    = document.getElementById('req-name')?.value.trim();
+        const name = document.getElementById('req-name')?.value.trim();
         const address = document.getElementById('req-address')?.value.trim();
         const purpose = document.getElementById('req-purpose')?.value;
-        const errEl   = document.getElementById('step2-err');
+        const errEl = document.getElementById('step2-err');
         if (!name || !address || !purpose) { errEl.textContent = 'Please fill in all required fields.'; errEl.classList.remove('hidden'); return false; }
         errEl.classList.add('hidden');
       }
@@ -568,11 +568,11 @@ const ResidentPages = (() => {
 
     _collect() {
       if (this._step === 2) {
-        this._data.name         = document.getElementById('req-name')?.value.trim();
-        this._data.address      = document.getElementById('req-address')?.value.trim();
+        this._data.name = document.getElementById('req-name')?.value.trim();
+        this._data.address = document.getElementById('req-address')?.value.trim();
         this._data.civil_status = document.getElementById('req-civil')?.value;
         this._data.years_in_brgy = document.getElementById('req-years')?.value;
-        this._data.purpose      = document.getElementById('req-purpose')?.value;
+        this._data.purpose = document.getElementById('req-purpose')?.value;
       }
     },
 
@@ -599,12 +599,12 @@ const ResidentPages = (() => {
           : '<div style="margin-top:var(--s-5);">' + reqs.map(r => `
           <a class="request-card" href="#/status/${r.id}" style="margin-bottom:var(--s-2);">
             <div class="request-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div>
-            <div class="request-card-info"><div class="request-card-type">${Utils.escapeHtml(r.type)}</div><div class="request-card-meta">${Utils.formatDateShort(r.submitted_at)} &middot; ${Utils.escapeHtml(r.purpose)} ${r.amount > 0 ? '&middot; &#8369;'+r.amount : '&middot; Free'}</div></div>
+            <div class="request-card-info"><div class="request-card-type">${Utils.escapeHtml(r.type)}</div><div class="request-card-meta">${Utils.formatDateShort(r.submitted_at)} &middot; ${Utils.escapeHtml(r.purpose)} ${r.amount > 0 ? '&middot; &#8369;' + r.amount : '&middot; Free'}</div></div>
             <div class="request-card-right"><span class="${Utils.statusBadgeClass(r.status)}">${Utils.statusLabel(r.status)}</span><span class="text-xs text-muted">${r.ref}</span></div>
           </a>`).join('') + '</div>'}
       </div>`;
     },
-    init() {}
+    init() { }
   };
 
   /* ══════════════════════════════════════════════════════════
@@ -616,12 +616,12 @@ const ResidentPages = (() => {
       if (!req) return `<div class="status-page page-enter"><div class="empty-state" style="margin-top:var(--s-12);"><div class="empty-state-icon">❓</div><div class="empty-state-title">Request not found</div><button onclick="App.navigate('/my-requests')" class="btn btn-primary" style="margin-top:var(--s-4);">My Requests</button></div></div>`;
 
       const steps = [
-        { key: 'submitted',    label: 'Submitted',        desc: 'Your request has been received by the barangay.' },
-        { key: 'under_review', label: 'Under Review',     desc: 'Staff is reviewing your application and documents.' },
-        { key: 'approved',     label: 'Approved',         desc: 'Your request has been approved and is being prepared.' },
-        { key: 'released',     label: 'Ready for Pickup', desc: 'Your document is ready! Visit the barangay hall to claim it.' },
+        { key: 'submitted', label: 'Submitted', desc: 'Your request has been received by the barangay.' },
+        { key: 'under_review', label: 'Under Review', desc: 'Staff is reviewing your application and documents.' },
+        { key: 'approved', label: 'Approved', desc: 'Your request has been approved and is being prepared.' },
+        { key: 'released', label: 'Ready for Pickup', desc: 'Your document is ready! Visit the barangay hall to claim it.' },
       ];
-      const order = ['submitted','under_review','approved','released','rejected'];
+      const order = ['submitted', 'under_review', 'approved', 'released', 'rejected'];
       const curIdx = order.indexOf(req.status);
       const sla = Utils.getSLAStatus(req.submitted_at, req.status);
 
@@ -634,10 +634,10 @@ const ResidentPages = (() => {
           <div class="ref-number">${req.ref}</div>
           <div class="ref-actions">
             <button class="ref-btn" onclick="Utils.copyToClipboard('${req.ref}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Ref</button>
-            ${req.status === 'released' ? '<button class="ref-btn" onclick="Utils.downloadTextFile(\''+req.ref+'.txt\',\'Barangay San Miguel\\nRef: '+req.ref+'\\nType: '+req.type+'\\nStatus: Ready for Pickup\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download</button>' : ''}
+            ${req.status === 'released' ? '<button class="ref-btn" onclick="Utils.downloadTextFile(\'' + req.ref + '.txt\',\'Barangay San Miguel\\nRef: ' + req.ref + '\\nType: ' + req.type + '\\nStatus: Ready for Pickup\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download</button>' : ''}
           </div>
         </div>
-        ${!['released','rejected'].includes(req.status) ? `<div class="estimated-time"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><div><strong>Estimated completion:</strong> 2&ndash;3 working days ${sla ? '&nbsp;&middot;&nbsp;<span class="sla-badge '+sla.cls+'">'+sla.label+'</span>' : ''}</div></div>` : ''}
+        ${!['released', 'rejected'].includes(req.status) ? `<div class="estimated-time"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><div><strong>Estimated completion:</strong> 2&ndash;3 working days ${sla ? '&nbsp;&middot;&nbsp;<span class="sla-badge ' + sla.cls + '">' + sla.label + '</span>' : ''}</div></div>` : ''}
         ${req.status === 'rejected' ? `<div class="alert alert-danger" style="margin-bottom:var(--s-5);"><svg class="alert-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><div><div class="alert-title">Request Rejected</div>${Utils.escapeHtml(req.reject_reason)}</div></div>` : ''}
         ${req.notes && req.status !== 'rejected' ? `<div class="alert alert-info" style="margin-bottom:var(--s-5);"><svg class="alert-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><div><div class="alert-title">Staff Note</div>${Utils.escapeHtml(req.notes)}</div></div>` : ''}
         <div class="card" style="margin-bottom:var(--s-5);">
@@ -645,12 +645,12 @@ const ResidentPages = (() => {
           <div class="card-body">
             <div class="timeline">
               ${req.status === 'rejected'
-                ? steps.slice(0,2).map((s,i) => `<div class="timeline-item done"><div class="timeline-dot">&#10003;</div><div class="timeline-title">${s.label}</div></div>`).join('') + `<div class="timeline-item current"><div class="timeline-dot">&times;</div><div class="timeline-title">Rejected</div><div class="timeline-meta">${Utils.formatDate(req.updated_at)}</div><div class="timeline-detail">${Utils.escapeHtml(req.reject_reason)}</div></div>`
-                : steps.map((s,i) => {
-                    const idx = order.indexOf(s.key);
-                    const state = idx < curIdx ? 'done' : s.key === req.status ? 'current' : 'pending';
-                    return `<div class="timeline-item ${state}"><div class="timeline-dot">${state==='done'?'&#10003;':i+1}</div><div class="timeline-title">${s.label}</div>${state!=='pending'?`<div class="timeline-meta">${Utils.formatDate(req.updated_at)}</div>`:''} ${state==='current'?`<div class="timeline-detail">${s.desc}</div>`:''}</div>`;
-                  }).join('')}
+          ? steps.slice(0, 2).map((s, i) => `<div class="timeline-item done"><div class="timeline-dot">&#10003;</div><div class="timeline-title">${s.label}</div></div>`).join('') + `<div class="timeline-item current"><div class="timeline-dot">&times;</div><div class="timeline-title">Rejected</div><div class="timeline-meta">${Utils.formatDate(req.updated_at)}</div><div class="timeline-detail">${Utils.escapeHtml(req.reject_reason)}</div></div>`
+          : steps.map((s, i) => {
+            const idx = order.indexOf(s.key);
+            const state = idx < curIdx ? 'done' : s.key === req.status ? 'current' : 'pending';
+            return `<div class="timeline-item ${state}"><div class="timeline-dot">${state === 'done' ? '&#10003;' : i + 1}</div><div class="timeline-title">${s.label}</div>${state !== 'pending' ? `<div class="timeline-meta">${Utils.formatDate(req.updated_at)}</div>` : ''} ${state === 'current' ? `<div class="timeline-detail">${s.desc}</div>` : ''}</div>`;
+          }).join('')}
             </div>
           </div>
         </div>
@@ -661,138 +661,15 @@ const ResidentPages = (() => {
               <div><div class="review-item-label">Purpose</div><div class="review-item-value">${Utils.escapeHtml(req.purpose)}</div></div>
               <div><div class="review-item-label">Submitted</div><div class="review-item-value">${Utils.formatDate(req.submitted_at)}</div></div>
               <div><div class="review-item-label">Last Updated</div><div class="review-item-value">${Utils.formatDate(req.updated_at)}</div></div>
-              <div><div class="review-item-label">Payment</div><div class="review-item-value"><span class="${Utils.statusBadgeClass(req.payment_status)}">${req.payment_status==='free'?'Free':req.payment_status==='paid'?'Paid':'Pending'}</span></div></div>
+              <div><div class="review-item-label">Payment</div><div class="review-item-value"><span class="${Utils.statusBadgeClass(req.payment_status)}">${req.payment_status === 'free' ? 'Free' : req.payment_status === 'paid' ? 'Paid' : 'Pending'}</span></div></div>
             </div>
           </div>
           <div class="card-footer"><div style="font-size:.78rem;color:var(--c-text-muted);">Inquiries: Barangay Hall (02) 8123-4567 &middot; Mon&ndash;Fri 8AM&ndash;5PM</div></div>
         </div>
       </div>`;
     },
-    init() {}
+    init() { }
   };
-
-  /* ══════════════════════════════════════════════════════════
-     INCIDENT REPORT
-  ══════════════════════════════════════════════════════════ */
-  const incidentNew = {
-    _category: '',
-    _lat: 14.676, _lng: 121.044,
-    _anon: false,
-
-    render() {
-      const cats = [
-        { id: 'Road Damage', emoji: '🚧' }, { id: 'Flooding', emoji: '🌊' },
-        { id: 'Illegal Dumping', emoji: '🗑️' }, { id: 'Street Light Out', emoji: '💡' },
-        { id: 'Public Safety', emoji: '🚨' }, { id: 'Others', emoji: '📋' },
-      ];
-      return `
-      <div class="incident-page page-enter">
-        <div class="page-header-row" style="margin-bottom:var(--s-5);">
-          <div><h1 class="page-title">Report an Incident</h1><p class="page-subtitle">Help keep Barangay San Miguel safe and clean.</p></div>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <div class="form-group">
-              <label class="form-label">Category <span class="required">*</span></label>
-              <div class="category-grid" id="cat-grid">
-                ${cats.map(c => `<button class="category-btn ${this._category===c.id?'selected':''}" data-cat="${c.id}"><span>${c.emoji}</span><span>${c.id}</span></button>`).join('')}
-              </div>
-              <div class="form-error hidden" id="cat-err"></div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Description <span class="required">*</span></label>
-              <textarea class="form-textarea" id="inc-desc" rows="4" placeholder="Describe the incident in detail..."></textarea>
-              <div class="form-error hidden" id="desc-err"></div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Location (tap map to pin)</label>
-              <div class="incident-map-wrap"><div id="incident-map"></div><div class="map-overlay-hint" id="map-hint">Tap the map to pin location</div></div>
-              <div class="form-hint" id="map-label">📍 Barangay San Miguel, Quezon City (default)</div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Photo (optional)</label>
-              <div class="file-drop" id="photo-drop">
-                <div class="file-drop-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
-                <div class="file-drop-text">Upload photo or <span class="file-drop-link">browse</span></div>
-              </div>
-              <div id="photo-preview" class="hidden"><img id="photo-img" style="max-height:120px;border-radius:var(--r-md);border:1px solid var(--c-border);margin-top:var(--s-2);" alt=""></div>
-              <input type="file" id="photo-input" accept="image/*" class="hidden">
-            </div>
-            <div class="form-group">
-              <label class="toggle-wrap">
-                <div class="toggle" id="anon-toggle"></div>
-                <div><div style="font-weight:600;font-size:.875rem;">Submit Anonymously</div><div style="font-size:.78rem;color:var(--c-text-muted);">Your name won't appear on this report.</div></div>
-              </label>
-            </div>
-            <div class="form-error hidden" id="inc-err"></div>
-            <button id="btn-submit-inc" class="btn btn-primary btn-block btn-lg" style="margin-top:var(--s-2);">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-              Submit Report
-            </button>
-          </div>
-        </div>
-      </div>`;
-    },
-
-    init() {
-      this._category = ''; this._anon = false;
-      setTimeout(() => {
-        if (typeof L === 'undefined') return;
-        const mapEl = document.getElementById('incident-map');
-        if (!mapEl) return;
-        const map = L.map('incident-map').setView([14.676, 121.044], 16);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap', maxZoom: 19 }).addTo(map);
-        let marker = null;
-        map.on('click', (e) => {
-          this._lat = e.latlng.lat; this._lng = e.latlng.lng;
-          if (marker) map.removeLayer(marker);
-          marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
-          document.getElementById('map-hint').style.display = 'none';
-          document.getElementById('map-label').textContent = '📍 ' + e.latlng.lat.toFixed(5) + ', ' + e.latlng.lng.toFixed(5);
-        });
-      }, 200);
-
-      document.getElementById('cat-grid').addEventListener('click', (e) => {
-        const btn = e.target.closest('.category-btn');
-        if (!btn) return;
-        this._category = btn.dataset.cat;
-        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        document.getElementById('cat-err').classList.add('hidden');
-      });
-
-      document.getElementById('photo-drop').addEventListener('click', () => document.getElementById('photo-input').click());
-      document.getElementById('photo-input').addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = ev => { document.getElementById('photo-preview').classList.remove('hidden'); document.getElementById('photo-img').src = ev.target.result; };
-        reader.readAsDataURL(file);
-      });
-
-      const toggle = document.getElementById('anon-toggle');
-      toggle.addEventListener('click', () => { this._anon = !this._anon; toggle.classList.toggle('on', this._anon); });
-
-      document.getElementById('btn-submit-inc').addEventListener('click', () => {
-        const desc = document.getElementById('inc-desc').value.trim();
-        const errEl = document.getElementById('inc-err');
-        errEl.classList.add('hidden');
-        if (!this._category) { document.getElementById('cat-err').textContent = 'Please select a category.'; document.getElementById('cat-err').classList.remove('hidden'); return; }
-        if (!desc) { errEl.textContent = 'Please enter a description.'; errEl.classList.remove('hidden'); return; }
-        const user = App.user;
-        const newInc = DB.createIncident({
-          reporter_id: user.id, reporter_name: this._anon ? 'Anonymous' : (user.name || 'Resident'),
-          reporter_phone: this._anon ? '' : user.phone, anonymous: this._anon,
-          category: this._category, description: desc,
-          location: { lat: this._lat, lng: this._lng, address: this._lat.toFixed(5) + ', ' + this._lng.toFixed(5) },
-          photo: null,
-        });
-        Utils.showToast('Incident reported! Ref: ' + newInc.ref, 'success', 'Report Submitted');
-        App.navigate('/dashboard');
-      });
-    }
-  };
-
   /* ══════════════════════════════════════════════════════════
      REPORT INCIDENT
   ══════════════════════════════════════════════════════════ */
@@ -841,7 +718,7 @@ const ResidentPages = (() => {
         const loc = document.getElementById('inc-loc').value.trim();
         const desc = document.getElementById('inc-desc').value.trim();
         const errEl = document.getElementById('inc-err');
-        
+
         errEl.classList.add('hidden');
         if (!type || !loc || !desc) {
           errEl.textContent = 'Please fill in all required fields.';
@@ -862,7 +739,7 @@ const ResidentPages = (() => {
         const incs = DB.getIncidents();
         incs.push(newInc);
         localStorage.setItem('brgy_incidents', JSON.stringify(incs));
-        
+
         Utils.showToast('Incident reported successfully. Thank you!', 'success', 'Reported');
         App.navigate('/dashboard');
       });
@@ -875,7 +752,7 @@ const ResidentPages = (() => {
   const announcements = {
     _filter: 'All',
     render() {
-      const cats = ['All','Health','Disaster','Events','General'];
+      const cats = ['All', 'Health', 'Disaster', 'Events', 'General'];
       const all = DB.getAnnouncements();
       const list = this._filter === 'All' ? all : all.filter(a => a.category === this._filter);
       return `
@@ -884,7 +761,7 @@ const ResidentPages = (() => {
           <div><h1 class="page-title">Announcements</h1><p class="page-subtitle">Latest news from Barangay San Miguel.</p></div>
         </div>
         <div class="filter-chips ann-filters" id="ann-chips">
-          ${cats.map(c => `<div class="chip ${this._filter===c?'active':''}" data-cat="${c}">${c}</div>`).join('')}
+          ${cats.map(c => `<div class="chip ${this._filter === c ? 'active' : ''}" data-cat="${c}">${c}</div>`).join('')}
         </div>
         <div id="ann-list">${this._renderList(list)}</div>
         <div style="text-align:center;padding:var(--s-8) var(--s-4);border-top:1px solid var(--c-border);margin-top:var(--s-6);">
@@ -895,12 +772,12 @@ const ResidentPages = (() => {
     _renderList(list) {
       if (!list.length) return '<div class="empty-state" style="margin-top:var(--s-8);"><div class="empty-state-icon">📭</div><div class="empty-state-title">No announcements</div></div>';
       return list.map(a => `
-      <div class="ann-card ${a.important?'important':''}">
+      <div class="ann-card ${a.important ? 'important' : ''}">
         <div class="ann-card-header">
           <div style="flex:1;min-width:0;"><div class="ann-card-title">${Utils.escapeHtml(a.title)}</div><div class="ann-card-meta"><span>${Utils.formatDateShort(a.published_at)}</span><span>${Utils.escapeHtml(a.author)}</span></div></div>
-          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;"><span class="badge badge-${a.category.toLowerCase()}">${a.category}</span>${a.important?'<span class="badge badge-danger">&#9888; Important</span>':''}</div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;"><span class="badge badge-${a.category.toLowerCase()}">${a.category}</span>${a.important ? '<span class="badge badge-danger">&#9888; Important</span>' : ''}</div>
         </div>
-        <div class="ann-card-body">${Utils.escapeHtml(a.content).replace(/\n/g,'<br>')}</div>
+        <div class="ann-card-body">${Utils.escapeHtml(a.content).replace(/\n/g, '<br>')}</div>
         <div class="ann-card-footer"><span>${Utils.formatRelativeTime(a.published_at)}</span></div>
       </div>`).join('');
     },
@@ -926,35 +803,35 @@ const ResidentPages = (() => {
       return `
       <div class="profile-page page-enter">
         <div class="profile-header">
-          <div class="profile-avatar">${Utils.initials(user.name)||'?'}</div>
+          <div class="profile-avatar">${Utils.initials(user.name) || '?'}</div>
           <div>
-            <div class="profile-name">${Utils.escapeHtml(user.name||'Unnamed Resident')}</div>
+            <div class="profile-name">${Utils.escapeHtml(user.name || 'Unnamed Resident')}</div>
             <div class="profile-phone">+63 ${user.phone}</div>
-            <div class="profile-complete" ${user.profile_complete?'':'style="background:rgba(245,158,11,.25);border-color:rgba(245,158,11,.4);"'}>${user.profile_complete?'&#10003; Profile Complete':'&#9888; Incomplete profile'}</div>
+            <div class="profile-complete" ${user.profile_complete ? '' : 'style="background:rgba(245,158,11,.25);border-color:rgba(245,158,11,.4);"'}>${user.profile_complete ? '&#10003; Profile Complete' : '&#9888; Incomplete profile'}</div>
           </div>
         </div>
         <div class="card" style="margin-bottom:var(--s-5);">
           <div class="card-header"><strong>Personal Information</strong></div>
           <div class="card-body">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s-4);">
-              <div class="form-group"><label class="form-label">Full Name <span class="required">*</span></label><input type="text" class="form-input" id="prof-name" value="${Utils.escapeHtml(user.name||'')}"></div>
+              <div class="form-group"><label class="form-label">Full Name <span class="required">*</span></label><input type="text" class="form-input" id="prof-name" value="${Utils.escapeHtml(user.name || '')}"></div>
               <div class="form-group"><label class="form-label">Mobile</label><input type="text" class="form-input" value="+63 ${user.phone}" disabled></div>
-              <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="prof-email" value="${Utils.escapeHtml(user.email||'')}"></div>
-              <div class="form-group"><label class="form-label">Gender</label><select class="form-select" id="prof-gender">${['','Male','Female','Prefer not to say'].map(g => `<option value="${g}" ${user.gender===g?'selected':''}>${g||'&mdash; Select &mdash;'}</option>`).join('')}</select></div>
-              <div class="form-group"><label class="form-label">Civil Status</label><select class="form-select" id="prof-civil">${['Single','Married','Widowed','Separated','Divorced'].map(s => `<option value="${s}" ${user.civil_status===s?'selected':''}>${s}</option>`).join('')}</select></div>
-              <div class="form-group"><label class="form-label">Date of Birth</label><input type="date" class="form-input" id="prof-bday" value="${user.birthdate||''}"></div>
-              <div class="form-group"><label class="form-label">Occupation</label><input type="text" class="form-input" id="prof-occ" value="${Utils.escapeHtml(user.occupation||'')}"></div>
+              <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="prof-email" value="${Utils.escapeHtml(user.email || '')}"></div>
+              <div class="form-group"><label class="form-label">Gender</label><select class="form-select" id="prof-gender">${['', 'Male', 'Female', 'Prefer not to say'].map(g => `<option value="${g}" ${user.gender === g ? 'selected' : ''}>${g || '&mdash; Select &mdash;'}</option>`).join('')}</select></div>
+              <div class="form-group"><label class="form-label">Civil Status</label><select class="form-select" id="prof-civil">${['Single', 'Married', 'Widowed', 'Separated', 'Divorced'].map(s => `<option value="${s}" ${user.civil_status === s ? 'selected' : ''}>${s}</option>`).join('')}</select></div>
+              <div class="form-group"><label class="form-label">Date of Birth</label><input type="date" class="form-input" id="prof-bday" value="${user.birthdate || ''}"></div>
+              <div class="form-group"><label class="form-label">Occupation</label><input type="text" class="form-input" id="prof-occ" value="${Utils.escapeHtml(user.occupation || '')}"></div>
             </div>
-            <div class="form-group"><label class="form-label">Complete Address <span class="required">*</span></label><input type="text" class="form-input" id="prof-address" value="${Utils.escapeHtml(user.address||'')}"></div>
-            <div class="form-group"><label class="form-label">Purok</label><input type="text" class="form-input" id="prof-purok" value="${Utils.escapeHtml(user.purok||'')}"></div>
+            <div class="form-group"><label class="form-label">Complete Address <span class="required">*</span></label><input type="text" class="form-input" id="prof-address" value="${Utils.escapeHtml(user.address || '')}"></div>
+            <div class="form-group"><label class="form-label">Purok</label><input type="text" class="form-input" id="prof-purok" value="${Utils.escapeHtml(user.purok || '')}"></div>
           </div>
         </div>
         <div class="card" style="margin-bottom:var(--s-5);">
           <div class="card-header"><strong>Household Members</strong><button id="btn-add-hm" class="btn btn-outline btn-sm">+ Add Member</button></div>
           <div class="card-body" id="household-list">
-            ${(user.household||[]).length === 0
-              ? '<div style="text-align:center;color:var(--c-text-muted);font-size:.875rem;padding:var(--s-5) 0;">No household members added yet.</div>'
-              : (user.household||[]).map(m => `<div class="household-member" data-hm-id="${m.id}"><div class="avatar">${Utils.initials(m.name)}</div><div style="flex:1;"><div style="font-weight:600;font-size:.875rem;">${Utils.escapeHtml(m.name)}</div><div style="font-size:.78rem;color:var(--c-text-muted);">${m.relation} &middot; Age ${m.age}</div></div><button class="hm-remove" data-hm-id="${m.id}">&times;</button></div>`).join('')}
+            ${(user.household || []).length === 0
+          ? '<div style="text-align:center;color:var(--c-text-muted);font-size:.875rem;padding:var(--s-5) 0;">No household members added yet.</div>'
+          : (user.household || []).map(m => `<div class="household-member" data-hm-id="${m.id}"><div class="avatar">${Utils.initials(m.name)}</div><div style="flex:1;"><div style="font-weight:600;font-size:.875rem;">${Utils.escapeHtml(m.name)}</div><div style="font-size:.78rem;color:var(--c-text-muted);">${m.relation} &middot; Age ${m.age}</div></div><button class="hm-remove" data-hm-id="${m.id}">&times;</button></div>`).join('')}
           </div>
         </div>
         <button id="btn-save-profile" class="btn btn-primary btn-block btn-lg" style="margin-bottom:var(--s-8);">
@@ -991,8 +868,8 @@ const ResidentPages = (() => {
         document.getElementById('btn-hm-confirm').addEventListener('click', () => {
           const name = document.getElementById('hm-name').value.trim();
           if (!name) { Utils.showToast('Name is required.', 'warning'); return; }
-          const member = { id: Utils.generateId(), name, relation: document.getElementById('hm-rel').value, age: parseInt(document.getElementById('hm-age').value)||0 };
-          const household = [...(App.user.household||[]), member];
+          const member = { id: Utils.generateId(), name, relation: document.getElementById('hm-rel').value, age: parseInt(document.getElementById('hm-age').value) || 0 };
+          const household = [...(App.user.household || []), member];
           const updated = DB.updateUser(App.user.id, { household });
           if (updated) { App.user = updated; DB.setSession(updated); }
           Utils.closeModal(); Utils.showToast('Member added!', 'success');
@@ -1003,7 +880,7 @@ const ResidentPages = (() => {
       document.getElementById('household-list').addEventListener('click', (e) => {
         const btn = e.target.closest('.hm-remove');
         if (!btn) return;
-        const household = (App.user.household||[]).filter(m => m.id !== btn.dataset.hmId);
+        const household = (App.user.household || []).filter(m => m.id !== btn.dataset.hmId);
         const updated = DB.updateUser(App.user.id, { household });
         if (updated) { App.user = updated; DB.setSession(updated); }
         btn.closest('.household-member').remove();

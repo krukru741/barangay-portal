@@ -238,12 +238,21 @@
 }
 
 /* ── 2. Login Page ── */
+/* Body-level scroll lock when login is active */
+body.login-active,
+body.login-active html {
+  overflow: hidden !important;
+  height: 100dvh !important;
+}
+
 .login-page {
-  min-height: 100dvh;
+  height: 100dvh;
+  width: 100%;
   background: linear-gradient(150deg, var(--c-primary-dark) 0%, var(--c-primary) 40%, var(--c-primary-mid) 100%);
   display: flex;
   align-items: stretch;
-  position: relative;
+  position: fixed;
+  inset: 0;
   overflow: hidden;
 }
 .login-bg-shapes {

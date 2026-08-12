@@ -151,10 +151,15 @@ const App = (() => {
     stfSidebar?.classList.add('hidden');
     bottomNav?.classList.add('hidden');
     layoutEl?.classList.remove('has-sidebar','has-bottom-nav');
-    document.body.classList.remove('has-sidebar','has-bottom-nav');
+    document.body.classList.remove('has-sidebar','has-bottom-nav','login-active');
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
 
     if (layout === 'guest') {
-      // No chrome — login page
+      // No chrome — login page; lock scroll
+      document.body.classList.add('login-active');
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
       return;
     }
 

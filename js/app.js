@@ -5,7 +5,7 @@
 
 const App = (() => {
   let _user  = null;
-  let _route = '';
+  let _currentRoute = '';
 
   /* ── Route definitions ── */
   const routes = {
@@ -34,13 +34,13 @@ const App = (() => {
       _user = DB.getSession();
       _setupGlobalHandlers();
       _setupOfflineDetection();
-      window.addEventListener('hashchange', () => _route());
-      _route();
+      window.addEventListener('hashchange', () => _doRoute());
+      _doRoute();
     },
 
     navigate(path) {
       if (window.location.hash === '#' + path) {
-        _route(); // Force re-render even if same path
+        _doRoute(); // Force re-render even if same path
       } else {
         window.location.hash = path;
       }
@@ -61,7 +61,7 @@ const App = (() => {
   };
 
   /* ── Core router ── */
-  function _route() {
+  function _doRoute() {
     const hash = window.location.hash.replace('#', '') || '/login';
     // Parse path and optional params
     const [pathRaw, queryStr] = hash.split('?');
@@ -110,6 +110,7 @@ const App = (() => {
 
     // Render
     _applyLayout(routeDef.layout);
+    _currentRoute = matchedKey;
     _render(routeDef.page, params, matchedKey);
     _updateActiveNav(matchedKey);
   }
@@ -261,7 +262,7 @@ const App = (() => {
             }
           }
         }
-        if (routeDef) _applyLayout(routeDef.layout);
+        if (routeDef) { _applyLayout(routeDef.layout); }
       }, 200);
     });
 

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Official online services portal of Barangay San Miguel, Quezon City — request certificates, report incidents, and stay updated.">
+  <meta name="theme-color" content="#0d6e6e">
+  <title>E-Barangay San Miguel — Quezon City</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lexend:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ── Top Bar ── -->
+  <header id="topbar" class="topbar hidden">
+    <div class="topbar-inner">
+      <div class="topbar-brand">
+        <img src="assets/seal.png" alt="Barangay Seal" class="topbar-seal">
+        <div class="topbar-branding">
+          <span class="topbar-name">Barangay San Miguel</span>
+          <span class="topbar-sub">Quezon City</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button id="lang-toggle" class="icon-btn" title="Toggle language / Palitan ang wika">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
+          <span id="lang-label">FIL</span>
+        </button>
+        <button id="topbar-notifications" class="icon-btn" title="Notifications">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="notif-dot hidden" id="notif-dot"></span>
+        </button>
+        <div class="topbar-user" id="topbar-user-info">
+          <div class="avatar" id="topbar-avatar">M</div>
+          <span id="topbar-username">Maria</span>
+        </div>
+        <button id="topbar-logout" class="icon-btn danger" title="Sign out">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Layout ── -->
+  <div id="layout" class="layout">
+
+    <!-- Resident Sidebar (desktop) -->
+    <aside id="resident-sidebar" class="sidebar hidden">
+      <nav class="sidebar-nav">
+        <div class="sidebar-brand">
+          <img src="assets/seal.png" alt="" class="sb-seal">
+          <div>
+            <div class="sb-name">Brgy. San Miguel</div>
+            <div class="sb-role resident-role">Resident Portal</div>
+          </div>
+        </div>
+        <div class="sb-divider"></div>
+        <a href="#/dashboard" class="nav-link" data-route="/dashboard">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+          <span data-i18n="nav_dashboard">Dashboard</span>
+        </a>
+        <a href="#/request" class="nav-link" data-route="/request">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span data-i18n="nav_request">Request Document</span>
+        </a>
+        <a href="#/my-requests" class="nav-link" data-route="/my-requests">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span data-i18n="nav_my_requests">My Requests</span>
+        </a>
+        <a href="#/announcements" class="nav-link" data-route="/announcements">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span data-i18n="nav_announcements">Announcements</span>
+        </a>
+        <a href="#/incidents/new" class="nav-link" data-route="/incidents/new">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span data-i18n="nav_report">Report Incident</span>
+        </a>
+        <a href="#/profile" class="nav-link" data-route="/profile">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span data-i18n="nav_profile">Profile</span>
+        </a>
+        <div class="sb-footer">
+          <div class="sb-help">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.6a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Brgy. Hall: (02) 8123-4567
+          </div>
+          <div class="sb-hours">Mon–Fri · 8AM–5PM</div>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Staff Sidebar (desktop) -->
+    <aside id="staff-sidebar" class="sidebar hidden">
+      <nav class="sidebar-nav">
+        <div class="sidebar-brand">
+          <img src="assets/seal.png" alt="" class="sb-seal">
+          <div>
+            <div class="sb-name">Brgy. San Miguel</div>
+            <div class="sb-role staff-role" id="staff-role-badge">Staff Portal</div>
+          </div>
+        </div>
+        <div class="sb-divider"></div>
+        <a href="#/staff/queue" class="nav-link" data-route="/staff/queue">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          <span>Request Queue</span>
+          <span class="nav-badge" id="queue-badge"></span>
+        </a>
+        <a href="#/staff/residents" class="nav-link" data-route="/staff/residents">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>Resident Records</span>
+        </a>
+        <a href="#/staff/incidents" class="nav-link" data-route="/staff/incidents">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>Incident Reports</span>
+          <span class="nav-badge new" id="incident-badge"></span>
+        </a>
+        <a href="#/staff/announcements" class="nav-link" data-route="/staff/announcements">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5"/><path d="M11 13l10-10"/><path d="M15 3h6v6"/></svg>
+          <span>Post Announcement</span>
+        </a>
+        <a href="#/staff/reports" class="nav-link" data-route="/staff/reports">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span>Reports & Analytics</span>
+        </a>
+        <div class="sb-footer">
+          <button id="staff-logout-btn" class="sb-logout-btn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Sign Out
+          </button>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main id="main-content">
+      <div id="page-root" role="main"></div>
+    </main>
+  </div>
+
+  <!-- Bottom Navigation (mobile, resident only) -->
+  <nav id="bottom-nav" class="bottom-nav hidden" aria-label="Main navigation">
+    <a href="#/dashboard" class="bn-item" data-route="/dashboard">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+      <span data-i18n="nav_home">Home</span>
+    </a>
+    <a href="#/request" class="bn-item" data-route="/request">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <span data-i18n="nav_request_short">Request</span>
+    </a>
+    <a href="#/my-requests" class="bn-item" data-route="/my-requests">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      <span>Status</span>
+    </a>
+    <a href="#/announcements" class="bn-item" data-route="/announcements">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <span data-i18n="nav_alerts">Alerts</span>
+    </a>
+    <a href="#/profile" class="bn-item" data-route="/profile">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span data-i18n="nav_profile">Profile</span>
+    </a>
+  </nav>
+</div>
+
+<!-- Toast Container -->
+<div id="toast-container" aria-live="polite" aria-atomic="false"></div>
+
+<!-- Modal Overlay -->
+<div id="modal-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div id="modal-box" class="modal-box">
+    <button id="modal-close-btn" class="modal-close" aria-label="Close dialog">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- Offline Banner -->
+<div id="offline-banner" class="offline-banner hidden" role="alert">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.56 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+  You're offline. Barangay Hall: <strong>(02) 8123-4567</strong> &nbsp;|&nbsp; Mon–Fri 8AM–5PM
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/data.js"></script>
+<script src="js/resident.js"></script>
+<script src="js/staff.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

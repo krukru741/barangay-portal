@@ -794,6 +794,82 @@ const ResidentPages = (() => {
   };
 
   /* ══════════════════════════════════════════════════════════
+     REPORT INCIDENT
+  ══════════════════════════════════════════════════════════ */
+  const incidentNew = {
+    render() {
+      return `
+      <div class="incident-page page-enter">
+        <div style="padding:0 0 var(--s-5);">
+          <button onclick="App.navigate('/dashboard')" class="btn btn-ghost btn-sm"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+        </div>
+        <h1 class="page-title" style="margin-bottom:var(--s-2);">Report an Incident</h1>
+        <p class="page-subtitle" style="margin-bottom:var(--s-6);">Help us keep the barangay safe by reporting issues.</p>
+        
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group">
+              <label class="form-label">Incident Type <span class="required">*</span></label>
+              <select class="form-select" id="inc-type">
+                <option value="">-- Select --</option>
+                <option>Road Damage / Pothole</option>
+                <option>Flooding / Drainage</option>
+                <option>Streetlight Outage</option>
+                <option>Garbage / Sanitation</option>
+                <option>Noise Complaint</option>
+                <option>Security / Disturbance</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Location / Address <span class="required">*</span></label>
+              <input type="text" class="form-input" id="inc-loc" placeholder="E.g., In front of Brgy Hall, Purok 2">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Description <span class="required">*</span></label>
+              <textarea class="form-input" id="inc-desc" rows="4" placeholder="Please provide details..."></textarea>
+            </div>
+            <div class="form-error hidden" id="inc-err"></div>
+            <button id="inc-submit" class="btn btn-primary btn-block" style="margin-top:var(--s-4);">Submit Report</button>
+          </div>
+        </div>
+      </div>`;
+    },
+    init() {
+      document.getElementById('inc-submit')?.addEventListener('click', () => {
+        const type = document.getElementById('inc-type').value;
+        const loc = document.getElementById('inc-loc').value.trim();
+        const desc = document.getElementById('inc-desc').value.trim();
+        const errEl = document.getElementById('inc-err');
+        
+        errEl.classList.add('hidden');
+        if (!type || !loc || !desc) {
+          errEl.textContent = 'Please fill in all required fields.';
+          errEl.classList.remove('hidden');
+          return;
+        }
+
+        const newInc = {
+          id: Utils.generateId(),
+          resident_id: App.user.id,
+          type,
+          location: loc,
+          description: desc,
+          status: 'pending',
+          reported_at: new Date().toISOString()
+        };
+
+        const incs = DB.getIncidents();
+        incs.push(newInc);
+        localStorage.setItem('brgy_incidents', JSON.stringify(incs));
+        
+        Utils.showToast('Incident reported successfully. Thank you!', 'success', 'Reported');
+        App.navigate('/dashboard');
+      });
+    }
+  };
+
+  /* ══════════════════════════════════════════════════════════
      ANNOUNCEMENTS
   ══════════════════════════════════════════════════════════ */
   const announcements = {
